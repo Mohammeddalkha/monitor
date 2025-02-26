@@ -15,7 +15,7 @@ YOUR_PHONE_NUMBER = "+918300521700"                        # Replace with your p
 OTHER_PERSON_PHONE_NUMBER = "+919865147897"                # Replace with the other person's phone number
 
 # URL to monitor
-URL_TO_MONITOR = 'https://sandbox-fcrm.myfundbox.com'
+URL_TO_MONITOR = 'https://youtube.com'
 
 # Headers to bypass WAF
 HEADERS = {
