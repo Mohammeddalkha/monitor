@@ -6,13 +6,13 @@ import os
 app = Flask(__name__)
 CORS(app)  # ✅ Enables CORS to allow frontend access
 
-# ✅ Database Configuration (Replace with environment variables for security)
+# ✅ Database Configuration (Use environment variables)
 DB_CONFIG = {
-    'host': 'ballast.proxy.rlwy.net',
-    'user': 'root',
-    'password': 'RnHgTWEWcuvjvlQHTKSEzYqLGGFtDUSS',
-    'database': 'railway',
-    'port': 32373
+    'host': os.getenv('DB_HOST', 'ballast.proxy.rlwy.net'),
+    'user': os.getenv('DB_USER', 'root'),
+    'password': os.getenv('DB_PASSWORD', 'RnHgTWEWcuvjvlQHTKSEzYqLGGFtDUSS'),
+    'database': os.getenv('DB_NAME', 'railway'),
+    'port': int(os.getenv('DB_PORT', 32373))
 }
 
 def get_db_connection():
@@ -50,6 +50,7 @@ def get_status():
 
     return jsonify(data)
 
+# ✅ Fix Indentation Issue - Ensure Flask App Runs Properly
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Get Railway's assigned port
-app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port)  # ✅ Run Flask server
