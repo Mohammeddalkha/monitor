@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import mysql.connector
+import os
 
 app = Flask(__name__)
 CORS(app)  # ✅ Enables CORS to allow frontend access
@@ -50,4 +51,5 @@ def get_status():
     return jsonify(data)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.environ.get("PORT", 5000))  # Get Railway's assigned port
+app.run(host='0.0.0.0', port=port)
