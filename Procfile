@@ -1,1 +1,1 @@
-web: supervisord -c supervisord.conf
+web: gunicorn dashboard:app --bind 0.0.0.0:5000 & python monitor.py
