@@ -1,4 +1,5 @@
 mysql-connector-python
+supervisor
 flask
 flask-cors
 gunicorn

@@ -1,2 +1,1 @@
-web: python monitor.py
-web: python dashboard.py
+web: supervisord -c supervisord.conf
