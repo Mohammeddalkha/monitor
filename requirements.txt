@@ -1,4 +1,6 @@
 mysql-connector-python
+flask
+flask-cors
 certifi==2024.12.14
 charset-normalizer==2.0.12
 idna==3.10
