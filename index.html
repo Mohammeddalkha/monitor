@@ -53,7 +53,7 @@
 </table>
 
 <script>
-const API_URL = 'https://monitor-production-ad04.up.railway.app/get_status';
+const API_URL = 'http://localhost:5000/get_status';
 
 async function fetchDataByDate() {
     const date = document.getElementById('datePicker').value;
@@ -75,16 +75,36 @@ async function fetchAllData() {
 async function fetchData(params) {
     try {
         const response = await fetch(API_URL + params, {
-            headers: { 'Accept': 'application/json' }
+            headers: {
+                'Accept': 'application/json'
+            }
         });
-        if (!response.ok) throw new Error('Failed to fetch data.');
+        if (!response.ok) {
+            console.error('HTTP Error:', response.statusText);
+            throw new Error('Failed to fetch data. Check API.');
+        }
 
         const data = await response.json();
         populateTable(data);
     } catch (error) {
         console.error('Fetch Error:', error);
-        alert('Failed to fetch data.');
+        alert('Failed to fetch data. Please check your API.');
     }
+}
+
+function convertToIST(timestamp) {
+    const date = new Date(timestamp);
+    const options = {
+        timeZone: 'Asia/Kolkata',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true  // Ensures 12-hour format
+    };
+    return new Intl.DateTimeFormat('en-IN', options).format(date);
 }
 
 function populateTable(data) {
@@ -99,7 +119,7 @@ function populateTable(data) {
     data.forEach(row => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${row.timestamp.replace(' GMT', '')}</td>
+            <td>${row.timestamp.replace(' GMT', '')}</td> <!-- Removes 'GMT' -->
             <td>${row.url}</td>
             <td>${row.call_initiated}</td>
             <td>${row.recipient}</td>
@@ -108,7 +128,9 @@ function populateTable(data) {
     });
 }
 
-// Auto-load today's data by default
+
+
+// Auto load today's data by default
 window.onload = fetchTodayData;
 </script>
 

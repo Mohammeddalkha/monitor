@@ -5,8 +5,8 @@ import os
 
 app = Flask(__name__)
 
-# ✅ Allow only GitHub Pages domain
-CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all domains temporarily
+# ✅ Allow requests from all origins (Frontend & GitHub Pages)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 DB_CONFIG = {
     'host': 'ballast.proxy.rlwy.net',
@@ -24,16 +24,12 @@ def get_status():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    date_filter = request.args.get('date')
     today = request.args.get('today')
-    history = request.args.get('history')
 
     query = "SELECT timestamp, url, call_initiated, recipient FROM monitor_log"
 
     if today:
         query += " WHERE DATE(timestamp) = CURDATE()"
-    elif date_filter:
-        query += f" WHERE DATE(timestamp) = '{date_filter}'"
 
     query += " ORDER BY timestamp DESC"
 
@@ -42,9 +38,10 @@ def get_status():
     cursor.close()
     conn.close()
 
-    return jsonify(data)
+    response = jsonify(data)
+    response.headers.add("Access-Control-Allow-Origin", "*")  # ✅ Fixes CORS issue
+    return response
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
-
