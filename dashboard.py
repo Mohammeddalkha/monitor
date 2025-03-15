@@ -1,13 +1,14 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import mysql.connector
-import os
+import subprocess
 
 app = Flask(__name__)
 
 # ✅ Allow requests from all origins (Frontend & GitHub Pages)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+# ✅ Hardcoded Database Configuration
 DB_CONFIG = {
     'host': 'ballast.proxy.rlwy.net',
     'user': 'root',
@@ -43,5 +44,8 @@ def get_status():
     return response
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # ✅ Start monitor.py automatically
+    subprocess.Popen(["python", "monitor.py"])
 
+    # ✅ Start Flask API
+    app.run(host='0.0.0.0', port=5000, debug=True)
