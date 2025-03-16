@@ -47,6 +47,9 @@
             background: #218838;
             transform: scale(1.05);
         }
+        .table-wrapper {
+            overflow-x: auto;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -71,11 +74,17 @@
             transition: background 0.3s;
         }
         @media (max-width: 768px) {
-            table {
-                font-size: 14px;
+            .table-wrapper {
+                overflow-x: auto;
             }
-            button {
+            table {
                 width: 100%;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            th, td {
+                padding: 8px;
             }
         }
     </style>
@@ -88,19 +97,21 @@
         <button onclick="fetchTodayData()">TODAY</button>
         <button onclick="fetchAllData()">HISTORY</button>
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Date & Time (IST)</th>
-                <th>URL Down</th>
-                <th>Call Initiated</th>
-                <th>Recipient</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-            <!-- Data will be inserted here -->
-        </tbody>
-    </table>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date & Time (IST)</th>
+                    <th>URL Down</th>
+                    <th>Call Initiated</th>
+                    <th>Recipient</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
